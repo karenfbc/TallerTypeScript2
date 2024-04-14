@@ -1,6 +1,9 @@
 import { series } from "./data.js";
 var seriesTbody = document.getElementById('series');
 var PromedioElm = document.getElementById("total-promedio");
+function getHTML(id) {
+    return document.getElementById(id);
+}
 renderCoursesInTable(series);
 PromedioElm.innerHTML = "".concat(getPromedioTemporadas(series));
 function renderCoursesInTable(series) {
@@ -16,4 +19,17 @@ function getPromedioTemporadas(series) {
     series.forEach(function (serie) { return totalTemporadas = totalTemporadas + serie.temporadas; });
     promedioTemporadas = totalTemporadas / series.length;
     return promedioTemporadas;
+}
+function cambiarCard(serie) {
+    var info = getHTML("serie-info");
+    info.style.display = "block";
+    var cardImg = info.querySelector('.card-img-top');
+    var cardTitulo = info.querySelector('.card-title');
+    var cardDescripcion = info.querySelector('.card-text');
+    var cardLink = info.querySelector('.btn-primary');
+    cardImg.src = serie.imagenUrl;
+    cardTitulo.textContent = serie.titulo;
+    cardDescripcion.textContent = serie.descripcion;
+    cardLink.href = serie.link;
+    cardLink.textContent = "Go to ".concat(serie.link);
 }
