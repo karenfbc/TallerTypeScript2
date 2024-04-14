@@ -53,12 +53,12 @@ function getPromedioTemporadas(series: Serie[]): number {
     const cardDescripcionElement = info.querySelector('.card-text') as HTMLElement;
     cardDescripcionElement.textContent = serie.descripcion;
 
-    const serieLinkElement = document.createElement('a');
-    serieLinkElement.href = serie.link;
-    serieLinkElement.textContent = serie.titulo; 
-    info.appendChild(serieLinkElement);
-
+    const cardLinkElement = info.querySelector('.btn.btn-primary') as HTMLAnchorElement;
+    cardLinkElement.href = serie.link; 
+    cardLinkElement.textContent = `${serie.link}`; 
 
 
 }
+
+  
 
