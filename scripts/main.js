@@ -1,17 +1,26 @@
 import { series } from "./data.js";
 var seriesTbody = document.getElementById('series');
 var PromedioElm = document.getElementById("total-promedio");
-function getHTML(id) {
+function getHTMLElement(id) {
     return document.getElementById(id);
 }
-renderCoursesInTable(series);
+populateSeriesTable(series);
 PromedioElm.innerHTML = "".concat(getPromedioTemporadas(series));
-function renderCoursesInTable(series) {
-    series.forEach(function (c) {
-        var trElement = document.createElement("tr");
-        trElement.innerHTML = "<td>".concat(c.id, "</td>\n                            <td style=\"color: rgb(0, 112, 224);\">").concat(c.titulo, "</td>\n                           <td>").concat(c.cadena_tv, "</td>\n                           <td>").concat(c.temporadas, "</td>");
-        seriesTbody.appendChild(trElement);
-    });
+function createSeriesRow(serie) {
+    var row = document.createElement("tr");
+    row.innerHTML = "\n        <td>".concat(serie.id, "</td>\n        <td>").concat(serie.titulo, "</td>\n        <td>").concat(serie.cadena_tv, "</td>\n        <td>").concat(serie.temporadas, "</td>\n    ");
+    return row;
+}
+function populateSeriesTable(series) {
+    var _loop_1 = function (serie) {
+        var row = createSeriesRow(serie);
+        row.addEventListener('click', function () { return cambiarCard(serie); });
+        seriesTbody.appendChild(row);
+    };
+    for (var _i = 0, series_1 = series; _i < series_1.length; _i++) {
+        var serie = series_1[_i];
+        _loop_1(serie);
+    }
 }
 function getPromedioTemporadas(series) {
     var promedioTemporadas = 0;
@@ -21,15 +30,15 @@ function getPromedioTemporadas(series) {
     return promedioTemporadas;
 }
 function cambiarCard(serie) {
-    var info = getHTML("serie-info");
+    var info = getHTMLElement("serie-info");
     info.style.display = "block";
-    var cardImg = info.querySelector('.card-img-top');
-    var cardTitulo = info.querySelector('.card-title');
-    var cardDescripcion = info.querySelector('.card-text');
-    var cardLink = info.querySelector('.btn-primary');
-    cardImg.src = serie.imagenUrl;
-    cardTitulo.textContent = serie.titulo;
-    cardDescripcion.textContent = serie.descripcion;
-    cardLink.href = serie.link;
-    cardLink.textContent = "Go to ".concat(serie.link);
+    var cardImgElement = info.querySelector('.card-img-top');
+    cardImgElement.src = serie.imagenUrl;
+    var cardTituloElement = info.querySelector('.card-title');
+    cardTituloElement.textContent = serie.titulo;
+    var cardDescripcionElement = info.querySelector('.card-text');
+    cardDescripcionElement.textContent = serie.descripcion;
+    var cardLinkElement = info.querySelector('.btn-primary');
+    cardLinkElement.href = serie.link;
+    cardLinkElement.textContent = "Go to ".concat(serie.link);
 }

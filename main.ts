@@ -9,7 +9,7 @@ function getHTMLElement(id: string): HTMLElement{
     return document.getElementById(id) as HTMLElement
 }
 
-populateSeriesTable(series)
+LlenarTabla(series)
 PromedioElm.innerHTML = `${getPromedioTemporadas(series)}`
 
 function createSeriesRow(serie: Serie): HTMLTableRowElement {
@@ -23,9 +23,7 @@ function createSeriesRow(serie: Serie): HTMLTableRowElement {
     return row;
 }
 
-
-
-function populateSeriesTable(series: Serie[]): void {
+function LlenarTabla(series: Serie[]): void {
     for (let serie of series) {
         const row = createSeriesRow(serie);
         row.addEventListener('click', () => cambiarCard(serie));
@@ -55,8 +53,12 @@ function getPromedioTemporadas(series: Serie[]): number {
     const cardDescripcionElement = info.querySelector('.card-text') as HTMLElement;
     cardDescripcionElement.textContent = serie.descripcion;
 
-    const cardLinkElement = info.querySelector('.btn-primary') as HTMLAnchorElement;
-    cardLinkElement.href = serie.link; 
-    cardLinkElement.textContent = `Go to ${serie.link}`; 
+    const serieLinkElement = document.createElement('a');
+    serieLinkElement.href = serie.link;
+    serieLinkElement.textContent = serie.titulo; 
+    info.appendChild(serieLinkElement);
+
+
+
 }
 
