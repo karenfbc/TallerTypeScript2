@@ -9,18 +9,28 @@ function getHTMLElement(id: string): HTMLElement{
     return document.getElementById(id) as HTMLElement
 }
 
-renderCoursesInTable(series);
+populateSeriesTable(series)
 PromedioElm.innerHTML = `${getPromedioTemporadas(series)}`
 
-function renderCoursesInTable(series: Serie[]): void {
-    series.forEach(c => {
-        let trElement = document.createElement("tr");
-        trElement.innerHTML = `<td>${c.id}</td>
-                            <td style="color: rgb(0, 112, 224);">${c.titulo}</td>
-                           <td>${c.cadena_tv}</td>
-                           <td>${c.temporadas}</td>`;
-        seriesTbody.appendChild(trElement);
-    });
+function createSeriesRow(serie: Serie): HTMLTableRowElement {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${serie.id}</td>
+        <td>${serie.titulo}</td>
+        <td>${serie.cadena_tv}</td>
+        <td>${serie.temporadas}</td>
+    `;
+    return row;
+}
+
+
+
+function populateSeriesTable(series: Serie[]): void {
+    for (let serie of series) {
+        const row = createSeriesRow(serie);
+        row.addEventListener('click', () => cambiarCard(serie));
+        seriesTbody.appendChild(row);
+    }
 }
 
 function getPromedioTemporadas(series: Serie[]): number {
